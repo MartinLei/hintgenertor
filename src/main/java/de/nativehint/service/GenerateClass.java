@@ -15,11 +15,11 @@ import java.util.List;
 public class GenerateClass {
 
 
-    public void generateAndSaveClass(List<ReflectionEntry> entryList) throws URISyntaxException {
+    public void generateAndSaveClass(String pathToSaveGeneratedClass, List<ReflectionEntry> entryList) throws URISyntaxException {
         String className = "GeneratedNativeServiceHint";
         String packageName = "de.test";
         String sourceCode = generateClassSourceCode(packageName, className, entryList);
-        saveSourceCodeToFile(sourceCode, packageName, className);
+        saveSourceCodeToFile(pathToSaveGeneratedClass, sourceCode, className);
     }
 
     public String generateClassSourceCode(String packageName, String className, List<ReflectionEntry> entryList) {
@@ -56,14 +56,12 @@ public class GenerateClass {
         return sb.toString();
     }
 
-    private void saveSourceCodeToFile(String sourceCode, String packageName, String className) throws URISyntaxException {
-        String directory = ClassLoader.getSystemResource("generatedClass").toURI().getPath();
-
+    private void saveSourceCodeToFile(String pathToSaveGeneratedClass, String sourceCode, String className) throws URISyntaxException {
         try {
-            FileWriter writer = new FileWriter(directory + "/" + className + ".java");
+            FileWriter writer = new FileWriter(pathToSaveGeneratedClass + "/" + className + ".java");
             writer.write(sourceCode);
             writer.close();
-            log.info(String.format("Write Java file '%s'.java to '%s'", className, directory));
+            log.info(String.format("Write Java file '%s'.java to '%s'", className, pathToSaveGeneratedClass));
         } catch (IOException e) {
             log.error("Error saving Java file to disk:", e);
         }

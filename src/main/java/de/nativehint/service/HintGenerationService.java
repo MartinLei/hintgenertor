@@ -23,15 +23,15 @@ public class HintGenerationService {
     private GenerateClass generateClass;
 
 
-
     public void run() throws FileNotFoundException, URISyntaxException {
         String pathSpringReflection = ClassLoader.getSystemResource("exampleJson/spring_reflect-config.json").toURI().getPath();
         String pathAgentReflection = ClassLoader.getSystemResource("exampleJson/agent_reflect-config.json").toURI().getPath();
+        String pathToSaveGeneratedClass = ClassLoader.getSystemResource("generatedClass").toURI().getPath();
 
         File springJson = fileHelper.getFile(pathSpringReflection);
         File agentJson = fileHelper.getFile(pathAgentReflection);
         List<ReflectionEntry> reflectionEntries = jsonDiff.generateDiff(agentJson, springJson);
 
-        generateClass.generateAndSaveClass(reflectionEntries);
+        generateClass.generateAndSaveClass(pathToSaveGeneratedClass, reflectionEntries);
     }
 }

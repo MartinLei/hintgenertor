@@ -27,7 +27,7 @@ public class JsonDiff {
             springList = mapper.readValue(springJson, new TypeReference<>() {
             });
         } catch (IOException ex) {
-            throw new RuntimeException("Could not parse json files");
+            throw new RuntimeException("Could not parse json files", ex);
         }
 
         List<ReflectionEntry> diff = agentList.stream()

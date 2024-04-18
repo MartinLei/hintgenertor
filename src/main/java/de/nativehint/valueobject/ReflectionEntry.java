@@ -3,11 +3,13 @@ package de.nativehint.valueobject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class ReflectionEntry {
 
