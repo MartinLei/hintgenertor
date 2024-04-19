@@ -5,6 +5,7 @@ import de.nativehint.valueobject.ReflectionEntry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,14 +24,12 @@ class GenerateClassTest {
     @Test
     void generateReflectionHint() throws IOException {
         // setup
-        String packageName = "de.test";
-        String className = "ReflectionHint";
         List<ReflectionEntry> entryList = List.of(
             new ReflectionEntry("de.dummy.AClass.java"),
             new ReflectionEntry("de.dummy.BClass.java"));
 
         // execute
-        String result = sut.generateClassSourceCode("de.test", "Hints", entryList);
+        String result = sut.generateClassSourceCode(entryList);
 
         // verify
         Path resourceDirectory = Paths.get("src", "test", "resources", "generatedClass", "ReflectionHint.java");

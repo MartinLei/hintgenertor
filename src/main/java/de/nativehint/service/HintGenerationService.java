@@ -3,15 +3,17 @@ package de.nativehint.service;
 import de.nativehint.helper.FileHelper;
 import de.nativehint.valueobject.ReflectionEntry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Service
 public class HintGenerationService {
+
+    private static final String REFLECT_CONFIG_JSON = "/reflect-config.json";
 
     @Autowired
     private FileHelper fileHelper;
@@ -22,16 +24,26 @@ public class HintGenerationService {
     @Autowired
     private GenerateClass generateClass;
 
+    @Value("${hintsgenerator.springPath}")
+    private String springPath;
 
-    public void run() throws FileNotFoundException, URISyntaxException {
-        String pathSpringReflection = ClassLoader.getSystemResource("exampleJson/spring_reflect-config.json").toURI().getPath();
-        String pathAgentReflection = ClassLoader.getSystemResource("exampleJson/agent_reflect-config.json").toURI().getPath();
-        String pathToSaveGeneratedClass = ClassLoader.getSystemResource("generatedClass").toURI().getPath();
+    @Value("${hintsgenerator.agentPath}")
+    private String agentPath;
 
-        File springJson = fileHelper.getFile(pathSpringReflection);
-        File agentJson = fileHelper.getFile(pathAgentReflection);
-        List<ReflectionEntry> reflectionEntries = jsonDiff.generateDiff(agentJson, springJson);
 
-        generateClass.generateAndSaveClass(pathToSaveGeneratedClass, reflectionEntries);
+
+    public void run() throws FileNotFoundException {
+        List<ReflectionEntry> reflectionEntries = generateHints_ReflectionConfig(springPath, agentPath);
+
+        //generateClass.generateAndSaveClass(reflectionEntries);
     }
+
+    private List<ReflectionEntry> generateHints_ReflectionConfig(String springPath, String agentPath) throws FileNotFoundException {
+        File springJson = fileHelper.getFile(springPath + REFLECT_CONFIG_JSON);
+        File agentJson = fileHelper.getFile(agentPath + REFLECT_CONFIG_JSON);
+
+        return jsonDiff.generateDiff_ReflectionConfig(agentJson, springJson);
+    }
+
+
 }

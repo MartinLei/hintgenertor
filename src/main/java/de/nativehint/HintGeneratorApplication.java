@@ -3,11 +3,13 @@ package de.nativehint;
 import de.nativehint.service.HintGenerationService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 @SpringBootApplication
+@PropertySource("classpath:application.properties")
 public class HintGeneratorApplication {
 
 

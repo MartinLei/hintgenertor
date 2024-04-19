@@ -2,6 +2,7 @@ package de.nativehint.service;
 
 import de.nativehint.valueobject.ReflectionEntry;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
@@ -14,20 +15,28 @@ import java.util.List;
 @Component
 public class GenerateClass {
 
+    @Value("${hintsgenerator.generatedClassPath}")
+    private String generatedClassPath;
 
-    public void generateAndSaveClass(String pathToSaveGeneratedClass, List<ReflectionEntry> entryList) throws URISyntaxException {
-        String className = "GeneratedNativeServiceHint";
-        String packageName = "de.test";
-        String sourceCode = generateClassSourceCode(packageName, className, entryList);
-        saveSourceCodeToFile(pathToSaveGeneratedClass, sourceCode, className);
+    @Value("${hintsgenerator.generatedClassName}")
+    String generatedClassName;
+
+    @Value("${hintsgenerator.generatedClassPackageName}")
+    String generatedClassPackageName;
+
+
+
+    public void generateAndSaveClass(List<ReflectionEntry> entryList) {
+        String sourceCode = generateClassSourceCode( entryList);
+        saveSourceCodeToFile(sourceCode);
     }
 
-    public String generateClassSourceCode(String packageName, String className, List<ReflectionEntry> entryList) {
-        return "package " + packageName + ";\n\n" +
+    public String generateClassSourceCode(List<ReflectionEntry> entryList) {
+        return "package " + generatedClassPackageName + ";\n\n" +
             "import org.springframework.aot.hint.MemberCategory;\n" +
             "import org.springframework.aot.hint.RuntimeHints;\n" +
-            "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n\n\n" +
-            "public class " + className + " implements RuntimeHintsRegistrar {\n" +
+            "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n\n" +
+            "public class " + generatedClassName + " implements RuntimeHintsRegistrar {\n" +
             "    @Override\n" +
             "    public void registerHints(RuntimeHints hints, ClassLoader classLoader) {\n" +
             "        hints.reflection()\n" +
@@ -56,12 +65,12 @@ public class GenerateClass {
         return sb.toString();
     }
 
-    private void saveSourceCodeToFile(String pathToSaveGeneratedClass, String sourceCode, String className) throws URISyntaxException {
+    private void saveSourceCodeToFile(String sourceCode) {
         try {
-            FileWriter writer = new FileWriter(pathToSaveGeneratedClass + "/" + className + ".java");
+            FileWriter writer = new FileWriter(generatedClassPath + "/" + generatedClassName + ".java");
             writer.write(sourceCode);
             writer.close();
-            log.info(String.format("Write Java file '%s'.java to '%s'", className, pathToSaveGeneratedClass));
+            log.info(String.format("Write Java file '%s'.java to '%s'", generatedClassName, generatedClassPath));
         } catch (IOException e) {
             log.error("Error saving Java file to disk:", e);
         }

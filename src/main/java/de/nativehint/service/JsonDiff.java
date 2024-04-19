@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.nativehint.valueobject.ReflectionEntry;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -14,6 +15,8 @@ import java.util.List;
 @Component
 public class JsonDiff {
 
+    @Value("#{'${hintsgenerator.filterReflectionPackage}'.split(',')}")
+    private List<String> filterReflectionPackage;
 
     public List<ReflectionEntry> generateDiff(File agentJson, File springJson) {
 
@@ -32,15 +35,21 @@ public class JsonDiff {
 
         List<ReflectionEntry> diff = agentList.stream()
             .filter(entry -> !springList.contains(entry))
-            .filter(entry -> !entry.getName().startsWith("["))
-            .map(entry -> {
-                var newName = entry.getName().replaceAll("\\$", ".");
-                entry.setName(newName);
-                return entry;
-            })
             .toList();
 
         log.info(String.format("Found %s entries", diff.size()));
         return diff;
+    }
+
+    public List<ReflectionEntry> generateDiff_ReflectionConfig(File agentJson, File springJson) {
+
+        return generateDiff(agentJson, springJson).stream()
+            .filter(entry -> !entry.getName().endsWith("_"))
+            .filter(entry -> filterReflectionPackage.stream()
+                .noneMatch(filterEntry -> entry.getName().startsWith(filterEntry))
+            )
+            .filter(entry -> !entry.getName().contains("$"))
+            .toList();
+
     }
 }
