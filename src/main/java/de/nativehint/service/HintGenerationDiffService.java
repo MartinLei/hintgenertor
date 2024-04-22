@@ -24,26 +24,25 @@ public class HintGenerationDiffService {
     @Autowired
     private GenerateClass generateClass;
 
-    @Value("${hintsgenerator.springPath}")
+    @Value("${hintsgenerator.diff.springPath}")
     private String springPath;
 
-    @Value("${hintsgenerator.agentPath}")
+    @Value("${hintsgenerator.diff.agentPath}")
     private String agentPath;
 
 
-
     public void run() throws FileNotFoundException {
-        List<ReflectionEntry> reflectionEntries = generateHints_ReflectionConfig(springPath, agentPath);
+        List<String> reflectionEntries = generateHints_ReflectionConfig(springPath, agentPath);
 
-        //generateClass.generateAndSaveClass(reflectionEntries);
+        String sourceCode = generateClass.generateClassSource(reflectionEntries);
+        fileHelper.saveSourceCodeToFile(sourceCode);
     }
 
-    private List<ReflectionEntry> generateHints_ReflectionConfig(String springPath, String agentPath) throws FileNotFoundException {
+    private List<String> generateHints_ReflectionConfig(String springPath, String agentPath) throws FileNotFoundException {
         File springJson = fileHelper.getFile(springPath + REFLECT_CONFIG_JSON);
         File agentJson = fileHelper.getFile(agentPath + REFLECT_CONFIG_JSON);
 
         return jsonDiff.generateDiff_ReflectionConfig(agentJson, springJson);
     }
-
 
 }

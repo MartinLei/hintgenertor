@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class JsonDiff {
 
-    @Value("#{'${hintsgenerator.filterReflectionPackage}'.split(',')}")
+    @Value("#{'${hintsgenerator.diff.filterReflectionPackage}'.split(',')}")
     private List<String> filterReflectionPackage;
 
     public List<ReflectionEntry> generateDiff(File agentJson, File springJson) {
@@ -41,7 +41,7 @@ public class JsonDiff {
         return diff;
     }
 
-    public List<ReflectionEntry> generateDiff_ReflectionConfig(File agentJson, File springJson) {
+    public List<String> generateDiff_ReflectionConfig(File agentJson, File springJson) {
 
         return generateDiff(agentJson, springJson).stream()
             .filter(entry -> !entry.getName().endsWith("_"))
@@ -49,6 +49,7 @@ public class JsonDiff {
                 .noneMatch(filterEntry -> entry.getName().startsWith(filterEntry))
             )
             .filter(entry -> !entry.getName().contains("$"))
+            .map(ReflectionEntry::getName)
             .toList();
 
     }

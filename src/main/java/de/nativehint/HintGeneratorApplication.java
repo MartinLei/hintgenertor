@@ -1,6 +1,7 @@
 package de.nativehint;
 
 import de.nativehint.service.HintGenerationDiffService;
+import de.nativehint.service.HintGenerationFolderService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
@@ -21,7 +22,10 @@ public class HintGeneratorApplication {
 		context.refresh();
 
 		HintGenerationDiffService hintGenerationService = context.getBean(HintGenerationDiffService.class);
-		hintGenerationService.run();
+		//hintGenerationService.run();
+
+		HintGenerationFolderService hintGenerationFolderService = context.getBean(HintGenerationFolderService.class);
+		hintGenerationFolderService.run();
 
 		context.close();
 	}
