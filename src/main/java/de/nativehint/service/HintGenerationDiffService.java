@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 @Service
-public class HintGenerationService {
+public class HintGenerationDiffService {
 
     private static final String REFLECT_CONFIG_JSON = "/reflect-config.json";
 
