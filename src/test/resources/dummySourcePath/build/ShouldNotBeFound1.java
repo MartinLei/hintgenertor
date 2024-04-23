@@ -1,5 +1,5 @@
 package de.valueobject;
 
-public class ShouldNotBeFound {
+public class ShouldNotBeFound1 {
 
 }

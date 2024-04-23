@@ -41,9 +41,8 @@ public class FileNameCollector {
             sourcePathObj,
             Integer.MAX_VALUE,
             (p, basicFileAttributes) -> Files.isDirectory(p)
-                // TODO
-               // && excludeList.stream().noneMatch(item -> p.toString().contains(item))
-                && includeList.stream().anyMatch(item -> p.getFileName().endsWith(item)))) {
+                && includeList.stream().anyMatch(item -> p.toString().contains(item))
+                && excludeList.stream().noneMatch(item -> p.toString().contains(item)))) {
 
             return pathStream.toList();
         }
@@ -76,7 +75,7 @@ public class FileNameCollector {
 
     private List<String> getAllClassNames(Path filePath) {
         String className = getClassName(filePath);
-        return getAllClassNames(filePath,className);
+        return getAllClassNames(filePath, className);
     }
 
     private List<String> getAllClassNames(Path filePath, String className) {

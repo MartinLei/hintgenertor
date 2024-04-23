@@ -7,16 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class FileNameCollectorTest {
@@ -43,7 +39,8 @@ class FileNameCollectorTest {
         // verify
         List<String> expected = List.of(
             sourcePath + "/valueobject",
-            sourcePath + "/valueobject/dto"
+            sourcePath + "/valueobject/dto",
+            sourcePath + "/valueobject/helper"
         );
 
         assertThat(result).isEqualTo(expected);
