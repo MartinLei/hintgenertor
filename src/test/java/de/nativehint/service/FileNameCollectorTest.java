@@ -63,7 +63,11 @@ class FileNameCollectorTest {
 
         // verify
         Map<String, List<String>> expected = Map.of(
-            "/valueobject", List.of("de.valueobject.ShouldBeFound1", "de.valueobject.ShouldBeFound2"),
+            "/valueobject", List.of(
+                "de.valueobject.ShouldBeFound1",
+                "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound1",
+                "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound2",
+                "de.valueobject.ShouldBeFound2"),
             "/valueobject/dto", List.of("de.vauleobject.dto.ShouldBeFound3")
         );
 
