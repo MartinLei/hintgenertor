@@ -15,7 +15,6 @@ import java.util.Map;
 public class GenerateClass {
 
 
-
     @Value("${hintsgenerator.generatedClassName}")
     String generatedClassName;
 
@@ -40,6 +39,7 @@ public class GenerateClass {
             "import org.springframework.aot.hint.MemberCategory;\n" +
             "import org.springframework.aot.hint.RuntimeHints;\n" +
             "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n\n" +
+            "@SuppressWarnings(\"checkstyle:LineLength\")\n" +
             "public class " + generatedClassName + " implements RuntimeHintsRegistrar {\n\n" +
             "    @Override\n" +
             "    public void registerHints(RuntimeHints hints, ClassLoader classLoader) {\n";

@@ -25,6 +25,12 @@ public class FileNameCollector {
     @Value("${hintsgenerator.folder.sourcePath}")
     private String sourcePath;
 
+    @Value("#{'${hintsgenerator.folder.includeList}'.split(',')}")
+    private List<String> includeList;
+
+    @Value("#{'${hintsgenerator.folder.excludeList}'.split(',')}")
+    private List<String> excludeList;
+
     public List<Path> getFolders() throws IOException {
 
         Path sourcePathObj = Path.of(sourcePath);
@@ -32,8 +38,8 @@ public class FileNameCollector {
             sourcePathObj,
             Integer.MAX_VALUE,
             (p, basicFileAttributes) -> Files.isDirectory(p)
-                && !p.toString().contains("build")
-                && p.getFileName().endsWith("valueobject"))) {
+                && excludeList.stream().noneMatch(item -> p.toString().contains(item))
+                && includeList.stream().anyMatch(item -> p.getFileName().endsWith(item)))) {
 
             return pathStream.toList();
         }
