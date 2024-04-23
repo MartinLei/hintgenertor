@@ -18,7 +18,7 @@ public class JsonDiff {
     @Value("#{'${hintsgenerator.diff.excludePackageList}'.split(',')}")
     private List<String> excludePackageList;
 
-    public List<ReflectionEntry> generateDiff(File agentJson, File springJson) {
+    private List<ReflectionEntry> generateDiff(File agentJson, File springJson) {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -45,6 +45,7 @@ public class JsonDiff {
 
         return generateDiff(agentJson, springJson).stream()
             .filter(entry -> !entry.getName().endsWith("_"))
+            .filter(entry -> !entry.getName().endsWith("Test"))
             .filter(entry -> excludePackageList.stream()
                 .noneMatch(filterEntry -> entry.getName().startsWith(filterEntry))
             )
