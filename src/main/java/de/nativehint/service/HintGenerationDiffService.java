@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class HintGenerationDiffService {
 
-    private static final String REFLECT_CONFIG_JSON = "/reflect-config.json";
+    static final String REFLECT_CONFIG_JSON = "/reflect-config.json";
 
     @Autowired
     private FileHelper fileHelper;
@@ -24,10 +24,10 @@ public class HintGenerationDiffService {
     @Autowired
     private GenerateClass generateClass;
 
-    @Value("${hintsgenerator.diff.springPath}")
+    @Value("${hintsgenerator.diff.baseMetaInfPath}")
     private String springPath;
 
-    @Value("${hintsgenerator.diff.agentPath}")
+    @Value("${hintsgenerator.diff.extendedMetaInfPath}")
     private String agentPath;
 
 

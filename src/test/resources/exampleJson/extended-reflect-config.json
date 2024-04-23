@@ -1,0 +1,14 @@
+[
+  {
+    "name": "[should.be.filtered.out"
+  },
+  {
+    "name": "org.springdoc.Bla"
+  },
+  {
+    "name": "de.test.AlreadyFound"
+  },
+  {
+    "name": "de.test.ShouldBeFound"
+  }
+]

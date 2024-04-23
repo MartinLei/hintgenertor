@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -33,7 +34,8 @@ class GenerateClassTest {
         // verify
         Path resourceDirectory = Paths.get("src", "test", "resources", "generatedClass", "ReflectionHint.java");
         String expected = Files.readString(resourceDirectory);
-        assertEquals(expected, result);
+
+        assertThat(expected).isEqualTo(result);
     }
 
 

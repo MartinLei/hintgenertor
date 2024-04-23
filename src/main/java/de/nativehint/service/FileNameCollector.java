@@ -38,7 +38,7 @@ public class FileNameCollector {
             sourcePathObj,
             Integer.MAX_VALUE,
             (p, basicFileAttributes) -> Files.isDirectory(p)
-                && excludeList.stream().noneMatch(item -> p.toString().contains(item))
+               // && excludeList.stream().noneMatch(item -> p.toString().contains(item))
                 && includeList.stream().anyMatch(item -> p.getFileName().endsWith(item)))) {
 
             return pathStream.toList();
@@ -62,7 +62,7 @@ public class FileNameCollector {
 
         try (Stream<Path> fileStream = Files.find(
             folder,
-            Integer.MAX_VALUE,
+           1,
             (p, basicFileAttributes) -> !Files.isDirectory(p))) {
             return fileStream.toList();
         } catch (IOException e) {
