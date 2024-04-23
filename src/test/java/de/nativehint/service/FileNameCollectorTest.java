@@ -40,6 +40,7 @@ class FileNameCollectorTest {
         List<String> expected = List.of(
             sourcePath + "/valueobject",
             sourcePath + "/valueobject/dto",
+            sourcePath + "/valueobject/dto/valueobject", // will be filter out later (empty folder)
             sourcePath + "/valueobject/helper"
         );
 
@@ -47,12 +48,9 @@ class FileNameCollectorTest {
     }
 
     @Test
-    void getFileList() {
+    void getFileList() throws IOException {
         // setup
-        List<Path> folder = List.of(
-            Path.of(sourcePath + "/valueobject"),
-            Path.of(sourcePath + "/valueobject/dto")
-        );
+        List<Path> folder = sut.getFolders();
 
 
         // execute
@@ -65,7 +63,8 @@ class FileNameCollectorTest {
                 "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound1",
                 "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound2",
                 "de.valueobject.ShouldBeFound2"),
-            "/valueobject/dto", List.of("de.vauleobject.dto.ShouldBeFound3")
+            "/valueobject/dto", List.of("de.valueobject.dto.ShouldBeFound3"),
+            "/valueobject/helper", List.of("de.valueobject.helper.ShouldBeFound4")
         );
 
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);

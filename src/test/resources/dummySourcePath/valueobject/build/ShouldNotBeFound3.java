@@ -1,4 +1,4 @@
-package de.vauleobject.build;
+package de.valueobject.build;
 
 public class ShouldNotBeFound3 {
 

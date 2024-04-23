@@ -1,4 +1,4 @@
-package de.vauleobject.dto;
+package de.valueobject.dto;
 
 public class ShouldNotBeFound3 {
 

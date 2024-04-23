@@ -1,5 +1,6 @@
 package de.nativehint.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @Component
 public class FileNameCollector {
 
@@ -56,7 +58,7 @@ public class FileNameCollector {
                     .flatMap(file -> getAllClassNames(file).stream())
                     .sorted()
                     .toList())
-            )
+            ).filter(entry -> !entry.getValue().isEmpty())
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
         );
     }
@@ -74,6 +76,10 @@ public class FileNameCollector {
     }
 
     private List<String> getAllClassNames(Path filePath) {
+        if(!"java".equals(StringUtils.getFilenameExtension(filePath.toString()))){
+            return new ArrayList<>();
+        }
+
         String className = getClassName(filePath);
         return getAllClassNames(filePath, className);
     }
@@ -101,6 +107,7 @@ public class FileNameCollector {
 
                 String innerClassName = matcher.group(1);
                 classNames.add(packageName + "." + className + "." + innerClassName);
+                log.info(innerClassName);
             }
             reader.close();
         } catch (IOException e) {
