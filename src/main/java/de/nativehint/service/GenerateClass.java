@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,7 @@ public class GenerateClass {
             "import org.springframework.aot.hint.MemberCategory;\n" +
             "import org.springframework.aot.hint.RuntimeHints;\n" +
             "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n\n" +
-            "@SuppressWarnings(\"checkstyle:LineLength\")\n" +
+            "@SuppressWarnings({\"checkstyle:LineLength\", \"checkstyle:MethodLength\"})\n" +
             "public class " + generatedClassName + " implements RuntimeHintsRegistrar {\n\n" +
             "    @Override\n" +
             "    public void registerHints(RuntimeHints hints, ClassLoader classLoader) {\n";
