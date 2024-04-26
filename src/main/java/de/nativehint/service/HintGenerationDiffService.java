@@ -1,7 +1,6 @@
 package de.nativehint.service;
 
 import de.nativehint.helper.FileHelper;
-import de.nativehint.valueobject.ReflectionEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,25 +23,29 @@ public class HintGenerationDiffService {
     @Autowired
     private GenerateClass generateClass;
 
-    @Value("${hintsgenerator.diff.baseMetaInfPath}")
-    private String springPath;
+    @Value("${hintsgenerator.diff.baseMetaInfoPath}")
+    private String baseMetInfoPath;
 
-    @Value("${hintsgenerator.diff.extendedMetaInfPath}")
-    private String agentPath;
+    @Value("${hintsgenerator.diff.extendedMetaInfoPath}")
+    private String extendedMetaInfoPath;
 
 
     public void run() throws FileNotFoundException {
-        List<String> reflectionEntries = generateHints_ReflectionConfig(springPath, agentPath);
+        File baseMetaInfoJson = fileHelper.getFile(baseMetInfoPath + REFLECT_CONFIG_JSON);
+        File extendedMetaInfoJson = fileHelper.getFile(extendedMetaInfoPath + REFLECT_CONFIG_JSON);
+
+        List<String> reflectionEntries = jsonDiff.generateDiff_ReflectionConfig(extendedMetaInfoJson, baseMetaInfoJson);
 
         String sourceCode = generateClass.generateClassSource(reflectionEntries);
         fileHelper.saveSourceCodeToFile(sourceCode);
     }
 
-    private List<String> generateHints_ReflectionConfig(String springPath, String agentPath) throws FileNotFoundException {
-        File springJson = fileHelper.getFile(springPath + REFLECT_CONFIG_JSON);
-        File agentJson = fileHelper.getFile(agentPath + REFLECT_CONFIG_JSON);
+    public void runFromBasePath() throws FileNotFoundException {
+        File baseMetaInfoJson = fileHelper.getFile(baseMetInfoPath + REFLECT_CONFIG_JSON);
+        List<String> reflectionEntries = jsonDiff.generate_ReflectionConfig(baseMetaInfoJson);
 
-        return jsonDiff.generateDiff_ReflectionConfig(agentJson, springJson);
+        String sourceCode = generateClass.generateClassSource(reflectionEntries);
+        fileHelper.saveSourceCodeToFile(sourceCode);
     }
 
 }

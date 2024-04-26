@@ -18,32 +18,43 @@ public class JsonDiff {
     @Value("#{'${hintsgenerator.diff.excludePackageList}'.split(',')}")
     private List<String> excludePackageList;
 
-    private List<ReflectionEntry> generateDiff(File agentJson, File springJson) {
+    private List<ReflectionEntry> generateDiff(File extendedMetaInfoJson, File baseMetaInfoJson) {
 
-        ObjectMapper mapper = new ObjectMapper();
+        List<ReflectionEntry> extendedList = readFile(extendedMetaInfoJson);
+        List<ReflectionEntry> baseList = readFile(baseMetaInfoJson);
 
-        List<ReflectionEntry> agentList;
-        List<ReflectionEntry> springList;
-        try {
-            agentList = mapper.readValue(agentJson, new TypeReference<>() {
-            });
-            springList = mapper.readValue(springJson, new TypeReference<>() {
-            });
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not parse json files", ex);
-        }
-
-        List<ReflectionEntry> diff = agentList.stream()
-            .filter(entry -> !springList.contains(entry))
+        List<ReflectionEntry> diff = extendedList.stream()
+            .filter(entry -> !baseList.contains(entry))
             .toList();
 
         log.info(String.format("Found %s entries", diff.size()));
         return diff;
     }
 
-    public List<String> generateDiff_ReflectionConfig(File agentJson, File springJson) {
+    private List<ReflectionEntry> readFile(File fileJson) {
+        ObjectMapper mapper = new ObjectMapper();
+        List<ReflectionEntry> entries;
+        try {
+            entries = mapper.readValue(fileJson, new TypeReference<>() {
+            });
+        } catch (IOException ex) {
+            throw new RuntimeException("Could not parse json files", ex);
+        }
+        return entries;
+    }
 
-        return generateDiff(agentJson, springJson).stream()
+    public List<String> generate_ReflectionConfig(File fileJson) {
+        return filter(readFile(fileJson));
+    }
+
+    public List<String> generateDiff_ReflectionConfig(File extendedMetaInfoJson, File baseMetaInfoJson) {
+
+        return filter(generateDiff(extendedMetaInfoJson, baseMetaInfoJson));
+
+    }
+
+    private List<String> filter(List<ReflectionEntry> list) {
+        return list.stream()
             .map(ReflectionEntry::getName)
             .filter(entry -> !entry.endsWith("_"))
             .filter(entry -> !entry.endsWith("Test"))
@@ -54,9 +65,8 @@ public class JsonDiff {
             .filter(entry -> !entry.contains("_"))
             .filter(entry -> !entry.endsWith(".1"))
             .map(path -> path.replace("$", "."))
-
-            .filter(entry -> entry.contains("intramo"))
             .toList();
-
     }
+
+
 }
