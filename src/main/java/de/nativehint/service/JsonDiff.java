@@ -44,13 +44,18 @@ public class JsonDiff {
     public List<String> generateDiff_ReflectionConfig(File agentJson, File springJson) {
 
         return generateDiff(agentJson, springJson).stream()
-            .filter(entry -> !entry.getName().endsWith("_"))
-            .filter(entry -> !entry.getName().endsWith("Test"))
-            .filter(entry -> excludePackageList.stream()
-                .noneMatch(filterEntry -> entry.getName().startsWith(filterEntry))
-            )
-            .filter(entry -> !entry.getName().contains("$"))
             .map(ReflectionEntry::getName)
+            .filter(entry -> !entry.endsWith("_"))
+            .filter(entry -> !entry.endsWith("Test"))
+            .filter(entry -> !entry.endsWith("package-info"))
+            .filter(entry -> excludePackageList.stream()
+                .noneMatch(filterEntry -> entry.startsWith(filterEntry))
+            )
+            .filter(entry -> !entry.contains("_"))
+            .filter(entry -> !entry.endsWith(".1"))
+            .map(path -> path.replace("$", "."))
+
+            .filter(entry -> entry.contains("intramo"))
             .toList();
 
     }

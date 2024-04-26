@@ -36,7 +36,8 @@ public class GenerateClass {
         return "package " + generatedClassPackageName + ";\n\n" +
             "import org.springframework.aot.hint.MemberCategory;\n" +
             "import org.springframework.aot.hint.RuntimeHints;\n" +
-            "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n\n" +
+            "import org.springframework.aot.hint.RuntimeHintsRegistrar;\n" +
+            "import org.springframework.aot.hint.TypeReference;\n\n"+
             "@SuppressWarnings({\"checkstyle:LineLength\", \"checkstyle:MethodLength\"})\n" +
             "public class " + generatedClassName + " implements RuntimeHintsRegistrar {\n\n" +
             "    @Override\n" +
@@ -51,19 +52,24 @@ public class GenerateClass {
 
     private String generateRegisterTypes(List<String> entryList) {
         StringBuilder sb = new StringBuilder();
-        sb.append("        hints.reflection()\n");
 
         Iterator<String> iterator = entryList.iterator();
+        int i = 0;
         while (iterator.hasNext()) {
+            if (i % 30 == 0) {
+                sb.append("        hints.reflection()\n");
+            }
             String entry = iterator.next();
-            sb.append("            .registerType(");
+            sb.append("            .registerType(TypeReference.of(\"");
             sb.append(entry);
-            sb.append(".class, MemberCategory.values())");
+            sb.append("\"), MemberCategory.values())");
 
-            if (!iterator.hasNext()) {
+            if (i % 30 == 29 || !iterator.hasNext()) {
                 sb.append(";\n");
             }
             sb.append("\n");
+
+            i++;
         }
 
         return sb.toString();

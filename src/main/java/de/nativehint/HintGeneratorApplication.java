@@ -21,11 +21,11 @@ public class HintGeneratorApplication {
 		context.scan("de.nativehint");
 		context.refresh();
 
-		HintGenerationDiffService hintGenerationService = context.getBean(HintGenerationDiffService.class);
-		//hintGenerationService.run();
+		HintGenerationDiffService hintGenerationDiffService = context.getBean(HintGenerationDiffService.class);
+		hintGenerationDiffService.run();
 
 		HintGenerationFolderService hintGenerationFolderService = context.getBean(HintGenerationFolderService.class);
-		hintGenerationFolderService.run();
+		//hintGenerationFolderService.run();
 
 		context.close();
 	}
