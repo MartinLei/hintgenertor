@@ -22,11 +22,11 @@ public class HintGeneratorApplication {
 		context.refresh();
 
 		HintGenerationDiffService hintGenerationDiffService = context.getBean(HintGenerationDiffService.class);
-		//hintGenerationDiffService.run();
+		hintGenerationDiffService.run();
 		//hintGenerationDiffService.runFromBasePath();
 
 		HintGenerationFolderService hintGenerationFolderService = context.getBean(HintGenerationFolderService.class);
-		hintGenerationFolderService.run();
+		//hintGenerationFolderService.run();
 
 		context.close();
 	}

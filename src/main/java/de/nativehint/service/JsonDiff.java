@@ -60,11 +60,10 @@ public class JsonDiff {
             .filter(entry -> !entry.endsWith("Test"))
             .filter(entry -> !entry.endsWith("package-info"))
             .filter(entry -> excludePackageList.stream()
-                .noneMatch(filterEntry -> entry.startsWith(filterEntry))
+                .noneMatch(entry::startsWith)
             )
             .filter(entry -> !entry.contains("_"))
             .filter(entry -> !entry.endsWith(".1"))
-            .map(path -> path.replace("$", "."))
             .toList();
     }
 

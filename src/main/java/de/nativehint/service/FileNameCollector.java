@@ -26,6 +26,8 @@ public class FileNameCollector {
     private static final Pattern PACKAGE_REGEX = Pattern.compile("package ((\\w+.)+);");
     private static final Pattern INNER_CLASS_REGEX = Pattern
         .compile("\\W+public static class (\\w+)\\W(\\w+ \\w+ )?\\{");
+    private static final Pattern INNER_ENUM_REGEX = Pattern
+        .compile("\\W+public enum (\\w+) \\{");
 
     @Value("${hintsgenerator.folder.sourcePath}")
     private String sourcePath;
@@ -101,13 +103,20 @@ public class FileNameCollector {
                 }
 
                 Matcher matcher = INNER_CLASS_REGEX.matcher(line);
-                if (!matcher.matches()) {
+                if (matcher.matches()) {
+                    String innerClassName = matcher.group(1);
+                    classNames.add(packageName + "." + className + "$" + innerClassName);
+                    log.info("Found inner class " + innerClassName);
                     continue;
                 }
 
-                String innerClassName = matcher.group(1);
-                classNames.add(packageName + "." + className + "." + innerClassName);
-                log.info(innerClassName);
+                matcher = INNER_ENUM_REGEX.matcher(line);
+                if (matcher.matches()) {
+                    String innerEnumName = matcher.group(1);
+                    classNames.add(packageName + "." + className + "$" + innerEnumName);
+                    log.info("Found inner enum " + innerEnumName);
+                }
+
             }
             reader.close();
         } catch (IOException e) {

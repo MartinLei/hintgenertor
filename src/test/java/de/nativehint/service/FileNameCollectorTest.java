@@ -60,8 +60,9 @@ class FileNameCollectorTest {
         Map<String, List<String>> expected = Map.of(
             "/valueobject", List.of(
                 "de.valueobject.ShouldBeFound1",
-                "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound1",
-                "de.valueobject.ShouldBeFound1.InnerClassShouldBeFound2",
+                "de.valueobject.ShouldBeFound1$InnerClassShouldBeFound1",
+                "de.valueobject.ShouldBeFound1$InnerClassShouldBeFound2",
+                "de.valueobject.ShouldBeFound1$InnerEnum",
                 "de.valueobject.ShouldBeFound2"),
             "/valueobject/dto", List.of("de.valueobject.dto.ShouldBeFound3"),
             "/valueobject/helper", List.of("de.valueobject.helper.ShouldBeFound4")
