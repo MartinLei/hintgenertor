@@ -1,6 +1,7 @@
 package de.nativehint.service;
 
 import de.nativehint.valueobject.HintEntry;
+import de.nativehint.valueobject.HintType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -75,7 +76,12 @@ public class GenerateClass {
             sb
                 .append("            .registerType(TypeReference.of(\"")
                 .append(entry)
-                .append("\"), MemberCategory.values())");
+                .append("\")");
+
+            if(HintType.reflection.equals(hintEntry.getHintType())) {
+                sb.append(", MemberCategory.values()");
+            }
+            sb.append(")");
 
             if (i % 30 == 29 || !iterator.hasNext()) {
                 sb.append(";\n");
