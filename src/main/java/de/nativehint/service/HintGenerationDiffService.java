@@ -1,6 +1,8 @@
 package de.nativehint.service;
 
 import de.nativehint.helper.FileHelper;
+import de.nativehint.valueobject.HintEntry;
+import de.nativehint.valueobject.HintType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,16 +37,18 @@ public class HintGenerationDiffService {
         File extendedMetaInfoJson = fileHelper.getFile(extendedMetaInfoPath + REFLECT_CONFIG_JSON);
 
         List<String> reflectionEntries = jsonDiff.generateDiff_ReflectionConfig(extendedMetaInfoJson, baseMetaInfoJson);
+        List<HintEntry> hintEntries = List.of(new HintEntry(HintType.reflection,null,reflectionEntries));
 
-        String sourceCode = generateClass.generateClassSource(reflectionEntries);
+        String sourceCode = generateClass.generateClassSource(hintEntries);
         fileHelper.saveSourceCodeToFile(sourceCode);
     }
 
     public void runFromBasePath() throws FileNotFoundException {
         File baseMetaInfoJson = fileHelper.getFile(baseMetInfoPath + REFLECT_CONFIG_JSON);
         List<String> reflectionEntries = jsonDiff.generate_ReflectionConfig(baseMetaInfoJson);
+        List<HintEntry> hintEntries = List.of(new HintEntry(HintType.reflection,null,reflectionEntries));
 
-        String sourceCode = generateClass.generateClassSource(reflectionEntries);
+        String sourceCode = generateClass.generateClassSource(hintEntries);
         fileHelper.saveSourceCodeToFile(sourceCode);
     }
 

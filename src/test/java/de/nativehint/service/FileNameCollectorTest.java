@@ -1,5 +1,7 @@
 package de.nativehint.service;
 
+import de.nativehint.valueobject.HintEntry;
+import de.nativehint.valueobject.HintType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,18 +55,18 @@ class FileNameCollectorTest {
 
 
         // execute
-        Map<String, List<String>> result = sut.getFileList(folder);
+        List<HintEntry> result = sut.getFileList(folder);
 
         // verify
-        Map<String, List<String>> expected = Map.of(
-            "/valueobject", List.of(
+        List<HintEntry> expected = List.of(
+            new HintEntry(HintType.reflection, "/valueobject", List.of(
                 "de.valueobject.ShouldBeFound1",
                 "de.valueobject.ShouldBeFound1$InnerClassShouldBeFound1",
                 "de.valueobject.ShouldBeFound1$InnerClassShouldBeFound2",
                 "de.valueobject.ShouldBeFound1$InnerEnum",
-                "de.valueobject.ShouldBeFound2"),
-            "/valueobject/dto", List.of("de.valueobject.dto.ShouldBeFound3"),
-            "/valueobject/helper", List.of("de.valueobject.helper.ShouldBeFound4")
+                "de.valueobject.ShouldBeFound2")),
+            new HintEntry(HintType.reflection, "/valueobject/dto", List.of("de.valueobject.dto.ShouldBeFound3")),
+            new HintEntry(HintType.reflection, "/valueobject/helper", List.of("de.valueobject.helper.ShouldBeFound4"))
         );
 
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);

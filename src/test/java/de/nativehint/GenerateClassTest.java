@@ -1,7 +1,8 @@
 package de.nativehint;
 
 import de.nativehint.service.GenerateClass;
-import de.nativehint.valueobject.ReflectionEntry;
+import de.nativehint.valueobject.HintEntry;
+import de.nativehint.valueobject.HintType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class GenerateClassTest {
@@ -24,12 +24,13 @@ class GenerateClassTest {
     @Test
     void generateReflectionHint() throws IOException {
         // setup
-        List<String> entryList = List.of(
+        List<String> entries = List.of(
             "de.dummy.AClass.java",
             "de.dummy.BClass.java");
+        List<HintEntry> hints = List.of(new HintEntry(HintType.reflection, null, entries));
 
         // execute
-        String result = sut.generateClassSource(entryList);
+        String result = sut.generateClassSource(hints);
 
         // verify
         Path resourceDirectory = Paths.get("src", "test", "resources", "generatedClass", "ReflectionHint.java");

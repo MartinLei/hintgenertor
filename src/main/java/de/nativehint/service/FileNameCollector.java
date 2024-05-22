@@ -1,5 +1,7 @@
 package de.nativehint.service;
 
+import de.nativehint.valueobject.HintEntry;
+import de.nativehint.valueobject.HintType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,10 +15,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -52,17 +52,17 @@ public class FileNameCollector {
         }
     }
 
-    public Map<String, List<String>> getFileList(List<Path> folders) {
+    public List<HintEntry> getFileList(List<Path> folders) {
 
-        return new TreeMap<>(folders.stream()
+        return folders.stream()
             .map(folder -> Map.entry(folder.toString().split(sourcePath)[1],
                 getFiles(folder).stream()
                     .flatMap(file -> getAllClassNames(file).stream())
                     .sorted()
                     .toList())
             ).filter(entry -> !entry.getValue().isEmpty())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-        );
+            .map(entry -> new HintEntry(HintType.reflection,entry.getKey(),entry.getValue()))
+            .toList();
     }
 
     private List<Path> getFiles(Path folder) {
