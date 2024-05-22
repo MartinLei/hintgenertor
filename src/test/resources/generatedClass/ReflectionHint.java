@@ -10,9 +10,82 @@ public class GeneratedMissingNativeServiceHint implements RuntimeHintsRegistrar 
 
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+        hints.serialization()
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values());
+
+        hints.serialization()
+            .registerType(TypeReference.of("de.dummy.newBlockAClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.newBlockAClass.java"), MemberCategory.values());
+
+        // a comment
         hints.reflection()
             .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
-            .registerType(TypeReference.of("de.dummy.BClass.java"), MemberCategory.values());
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.AClass.java"), MemberCategory.values());
+
+        hints.reflection()
+            .registerType(TypeReference.of("de.dummy.newBlockAClass.java"), MemberCategory.values())
+            .registerType(TypeReference.of("de.dummy.newBlockAClass.java"), MemberCategory.values());
+
+        // b comment
+        hints.reflection()
+            .registerType(TypeReference.of("de.dummy.DClass.java"), MemberCategory.values());
 
     }
 }

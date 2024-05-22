@@ -32,13 +32,26 @@ public class FileNameCollector {
     @Value("${hintsgenerator.folder.sourcePath}")
     private String sourcePath;
 
-    @Value("#{'${hintsgenerator.folder.includeList}'.split(',')}")
-    private List<String> includeList;
+    @Value("#{'${hintsgenerator.folder.reflection.includeList}'.split(',')}")
+    private List<String> reflectionIncludeList;
+
+    @Value("#{'${hintsgenerator.folder.serialization.includeList}'.split(',')}")
+    private List<String> serializationIncludeList;
+
+
 
     @Value("#{'${hintsgenerator.folder.excludeList}'.split(',')}")
     private List<String> excludeList;
 
-    public List<Path> getFolders() throws IOException {
+    public List<Path> getReflectionFolders() throws IOException {
+        return getFolders(reflectionIncludeList);
+    }
+
+    public List<Path> getSerializationFolders() throws IOException {
+        return getFolders(serializationIncludeList);
+    }
+
+    private List<Path> getFolders(List<String> includeList) throws IOException {
 
         Path sourcePathObj = Path.of(sourcePath);
         try (Stream<Path> pathStream = Files.find(
@@ -52,7 +65,7 @@ public class FileNameCollector {
         }
     }
 
-    public List<HintEntry> getFileList(List<Path> folders) {
+    public List<HintEntry> getFileList(HintType hintType, List<Path> folders) {
 
         return folders.stream()
             .map(folder -> Map.entry(folder.toString().split(sourcePath)[1],
@@ -61,7 +74,7 @@ public class FileNameCollector {
                     .sorted()
                     .toList())
             ).filter(entry -> !entry.getValue().isEmpty())
-            .map(entry -> new HintEntry(HintType.reflection,entry.getKey(),entry.getValue()))
+            .map(entry -> new HintEntry(hintType,entry.getKey(),entry.getValue()))
             .toList();
     }
 

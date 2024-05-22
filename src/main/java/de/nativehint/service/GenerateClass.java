@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -15,14 +17,16 @@ public class GenerateClass {
 
 
     @Value("${hintsgenerator.generatedClassName}")
-    String generatedClassName;
+    private  String generatedClassName;
 
     @Value("${hintsgenerator.generatedClassPackageName}")
-    String generatedClassPackageName;
+    private String generatedClassPackageName;
+
+    private static final Comparator<HintEntry> comparator = Comparator.comparing(a -> Objects.toString(a.getComment(), ""));
 
     public String generateClassSource(List<HintEntry> hints) {
         return generateClassSource() +
-            generateBlocks(hints) +
+            generateBlocks(hints.stream().sorted(comparator).toList()) +
             generateClassSourceCodeEnd();
     }
 

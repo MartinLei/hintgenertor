@@ -33,7 +33,7 @@ class FileNameCollectorTest {
     void getFolders() throws IOException {
 
         // execute
-        List<String> result = sut.getFolders().stream()
+        List<String> result = sut.getReflectionFolders().stream()
             .map(Path::toString)
             .toList();
 
@@ -51,11 +51,11 @@ class FileNameCollectorTest {
     @Test
     void getFileList() throws IOException {
         // setup
-        List<Path> folder = sut.getFolders();
+        List<Path> folder = sut.getReflectionFolders();
 
 
         // execute
-        List<HintEntry> result = sut.getFileList(folder);
+        List<HintEntry> result = sut.getFileList(HintType.reflection, folder);
 
         // verify
         List<HintEntry> expected = List.of(
